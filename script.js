@@ -16,8 +16,8 @@ const userRegister = {
     objectives: document.getElementById('obj').value,
 };
 
-async function loginGet(email) {
-    const response = await fetch(`http://localhost:8000/login/${email}`, {
+async function loginGet() {
+    const response = await fetch('http://localhost:8000/login/', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -43,33 +43,18 @@ async function loginPost(event) {
         body: JSON.stringify({ email: userRegister.email, password: userRegister.password }),
     });
     if (response.ok) {
+        const data = await response.json();
         localStorage.setItem('isLoggedIn', true);
+        localStorage.setItem('userId', data.userId); // Armazena o ID do usuário
         window.location.href = 'main.html';
     } else {
         alert('Invalid credentials');
     }
 }
 
-async function loginDelete(email) {
 
-    const response = await fetch(`http://localhost:8000/register/${email}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        // body: JSON.stringify({ email }),
-    });
-
-   await response.json();
-    if (response.ok) {
-        alert('Deleted successfully');
-    } else {
-        alert('Failed!');
-    }
-}
-
-async function registerGet(email) {
-        const response = await fetch(`http://localhost:8000/register/${email}`, {
+async function registerGet() {
+        const response = await fetch('http://localhost:8000/register/', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -104,53 +89,29 @@ async function registerPost(event) {
     }
 }
 
-async function registerPut(email) {
-
-
-    const response = await fetch(`http://localhost:8000/register/${email}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ user: userRegister }),
-    });
-    if (response.ok) {
-        alert('Updated successfully, please login.');
-        window.location.href = 'login.html';
-    } else {
-        alert('Update failed');
-    }
-}
-
-async function registerDelete(email) {
-
-        const response = await fetch(`http://localhost:8000/register/${email}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            // body: JSON.stringify({ email }),
-        });
-
-        if (response.ok) {
-            alert('Deleted successfully');
-        } else {
-            alert('Failed!');
-        }
-}
-
 
 async function getCourses() {
-    const response = await fetch('http://localhost:8000/courses/');
+    // Supondo que o ID do usuário esteja armazenado no localStorage
+    const userId = localStorage.getItem('userId');
+    
+    if (!userId) {
+        alert('User ID not found in session');
+        return;
+    }
+
+    const response = await fetch(`http://localhost:8000/courses?userId=${userId}`);
     if (response.ok) {
         const data = await response.json();
         const coursesList = document.getElementById('courses-list');
+        coursesList.innerHTML = ''; // Limpa a lista antes de adicionar novos itens
         data.courses.forEach(course => {
             const item = document.createElement('li');
             item.className = 'list-group-item';
             item.textContent = `${course.name}: ${course.description} - ${course.link}`;
             coursesList.appendChild(item);
         });
+    } else {
+        alert('Failed to fetch courses');
     }
 }
 
