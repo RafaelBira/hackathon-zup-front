@@ -1,46 +1,18 @@
-// const email = document.getElementById('email').value;
-// const password = document.getElementById('pwd').value;
-// const nameUser = document.getElementById('nome-user').value;
-// const typeEnterprise = document.getElementById('type-empr').value;
-// const descripyEnterprise = document.getElementById('descr-empr').value;
-// const areasOfInterest = document.getElementById('interesse').value;
-// const objectives = document.getElementById('obj').value;
 
-const userRegister = {
-    email: document.getElementById('email').value,
-    password: document.getElementById('pwd').value,
-    nameUser: document.getElementById('nome-user').value,
-    typeEnterprise: document.getElementById('type-empr').value,
-    descripyEnterprise: document.getElementById('descr-empr').value,
-    areasOfInterest: document.getElementById('interesse').value,
-    objectives: document.getElementById('obj').value,
-};
-
-async function loginGet() {
-    const response = await fetch('http://localhost:8000/login/', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
-
-    const data = await response.json();
-    if (response.ok) {
-        return data;
-    } else {
-        alert('Failed!');
-    }
-}
-
-async function loginPost(event) {
+async function login(event) {
     event.preventDefault();
+
+        const loginData = {
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value
+    };
 
     const response = await fetch('http://localhost:8000/login/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email: userRegister.email, password: userRegister.password }),
+        body: JSON.stringify({ email: loginData.email, password: loginData.password }),
     });
     if (response.ok) {
         const data = await response.json();
@@ -48,74 +20,72 @@ async function loginPost(event) {
         localStorage.setItem('userId', data.userId); // Armazena o ID do usuário
         window.location.href = 'main.html';
     } else {
-        alert('Invalid credentials');
+        alert('Credenciais inválidas');
     }
 }
 
-
-async function registerGet() {
-        const response = await fetch('http://localhost:8000/register/', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        const data = await response.json();
-        if (response.ok) {
-            return data;
-        } else {
-            alert('Failed!');
-        }
-}
-
-async function registerPost(event) {
+async function register(event) {
     event.preventDefault();
 
+    const selectedInterests = [];
+    const checkboxes = document.querySelectorAll('input[name="areasOfInterest"]:checked');
+    checkboxes.forEach((checkbox) => {
+        selectedInterests.push(checkbox.value);
+    });
+
+    const registerData = {
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+        userName: document.getElementById('userName').value,
+        businessType: document.getElementById('businessType').value,
+        businessDescription: document.getElementById('businessDescription').value,
+        objectives: document.getElementById('objectives').value,
+        areasOfInterest: selectedInterests
+    };
 
     const response = await fetch('http://localhost:8000/register/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ user: userRegister }),
+        body: JSON.stringify({ user: registerData }),
     });
 
     if (response.ok) {
-        alert('Registration successful, please login.');
+        alert('Registrado com sucesso. Por favor, faça o login.');
         window.location.href = 'login.html';
     } else {
-        alert('Registration failed');
+        alert('Erro ao fazer o registro.');
     }
 }
 
 
-async function getCourses() {
+async function getRecomendations() {
     // Supondo que o ID do usuário esteja armazenado no localStorage
     const userId = localStorage.getItem('userId');
     
     if (!userId) {
-        alert('User ID not found in session');
+        alert('Você não está logado');
         return;
     }
 
-    const response = await fetch(`http://localhost:8000/courses?userId=${userId}`);
+    const response = await fetch(`http://localhost:8000/recomendations?userId=${userId}`);
     if (response.ok) {
         const data = await response.json();
-        const coursesList = document.getElementById('courses-list');
-        coursesList.innerHTML = ''; // Limpa a lista antes de adicionar novos itens
-        data.courses.forEach(course => {
+        const recomendationsList = document.getElementById('RecomendationsList');
+        recomendationsList.innerHTML = ''; // Limpa a lista antes de adicionar novos itens
+        data.recomendations.forEach(recomendation => {
             const item = document.createElement('li');
             item.className = 'list-group-item';
-            item.textContent = `${course.name}: ${course.description} - ${course.link}`;
-            coursesList.appendChild(item);
+            item.textContent = `${recomendation.name}: ${recomendation.description} - ${recomendation.link}`;
+            recomendationsList.appendChild(item);
         });
     } else {
-        alert('Failed to fetch courses');
+        alert('Falha ao buscar recomendações');
     }
 }
 
 
 if (window.location.pathname.endsWith('main.html')) {
-    getCourses();
+    getRecomendations();
 }

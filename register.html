@@ -11,48 +11,44 @@
         <h2>Registrar</h2>
         <form onsubmit="register(event)">
             <div class="form-group">
-                <label for="nome-user">Nome Usuário</label>
-                <input type="text" class="form-control" id="nome-user" placeholder="Escreva seu usuário" name="nome-user" required>
+                <label for="userName">Nome de Usuário</label>
+                <input type="text" class="form-control" id="userName" placeholder="Digite um nome de usuário" name="userName" required>
             </div>
             <div class="form-group">
                 <label for="email">E-Mail:</label>
-                <input type="email" class="form-control" id="email" placeholder="Digite o E-Mail" name="email" required>
+                <input type="email" class="form-control" id="email" placeholder="Digite um E-Mail" name="email" required>
             </div>
             <div class="form-group">
-                <label for="pwd">Senha:</label>
-                <input type="password" class="form-control" id="pwd" placeholder="Digite a senha" name="pwd" required>
+                <label for="password">Senha:</label>
+                <input type="password" class="form-control" id="password" placeholder="Digite uma senha" name="password" required>
             </div>
             <div class="form-group">
-                <label for="type-empr">Tipo de Empreendimento</label>
-                <input type="text" class="form-control" id="type-empr" placeholder="Escreva o tipo do seu empreendimento" name="type-empr" required>
+                <label for="businessType">Tipo de Empreendimento</label>
+                <input type="text" class="form-control" id="businessType" placeholder="Escreva o tipo do seu empreendimento" name="businessType" required>
             </div>
             <div class="form-group">
-                <label for="descr-empr">Descreva seu Empreendimento</label>
-                <input type="text" class="form-control" id="descr-empr" placeholder="Descreva sobre seu empreendimento" name="descr-empr" required>
+                <label for="businessDescription">Descreva seu Empreendimento</label>
+                <input type="text" class="form-control" id="businessDescription" placeholder="Descreva sobre seu empreendimento" name="businessDescription" required>
             </div>
             <div class="form-group">
-                <label for="interesse">Áreas de Interesse</label>
-                <input type="text" class="form-control" id="interesse" placeholder="Escreva as áreas de interesse" name="interesse" required>
-            </div>
-            <div class="form-group">
-                <label for="obj">Objetivos</label>
-                <input type="text" class="form-control" id="obj" placeholder="Escreva seus objetivos" name="obj" required>
+                <label for="objectives">Objetivos</label>
+                <input type="text" class="form-control" id="objectives" placeholder="Escreva seus objetivos" name="objectives" required>
             </div>
 
             <!-- Inserindo caixa de seleção para assuntos de interesse -->
             <fieldset class="form-group">
                 <legend>Selecione assuntos de interesse:</legend>
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="assunto1" name="interesses" value="assunto1">
-                    <label for="assunto1" class="form-check-label">Assunto 1</label>
+                    <input type="checkbox" class="form-check-input" id="tecnologia" name="areasOfInterest" value="tecnologia">
+                    <label for="tecnologia" class="form-check-label">Tecnologia</label>
                 </div>
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="assunto2" name="interesses" value="assunto2">
-                    <label for="assunto2" class="form-check-label">Assunto 2</label>
+                    <input type="checkbox" class="form-check-input" id="comercio" name="areasOfInterest" value="comercio">
+                    <label for="comercio" class="form-check-label">Comércio</label>
                 </div>
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="assunto3" name="interesses" value="assunto3">
-                    <label for="assunto3" class="form-check-label">Assunto 3</label>
+                    <input type="checkbox" class="form-check-input" id="gastronomia" name="areasOfInterest" value="gastronomia">
+                    <label for="gastronomia" class="form-check-label">Gastronomia</label>
                 </div>
             </fieldset>
 
