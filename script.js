@@ -72,7 +72,7 @@ async function getRecomendations() {
     const response = await fetch(`http://localhost:8000/recomendations?userId=${userId}`);
     if (response.ok) {
         const data = await response.json();
-        const recomendationsList = document.getElementById('RecomendationsList');
+        const recomendationsList = document.getElementById('recomendationsList');
         recomendationsList.innerHTML = ''; // Limpa a lista antes de adicionar novos itens
         data.recomendations.forEach(recomendation => {
             const item = document.createElement('li');
